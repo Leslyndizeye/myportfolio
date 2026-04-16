@@ -1,0 +1,812 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <script>
+            (function (w, d, s, l, i) {
+                w[l] = w[l] || [];
+                w[l].push({"gtm.start": new Date().getTime(), event: "gtm.js"});
+                var f = d.getElementsByTagName(s)[0],
+                    j = d.createElement(s),
+                    dl = l != "dataLayer"
+                        ? "&l=" + l
+                        : "";
+                j.async = true;
+                j.src = "https://www.googletagmanager.com/gtm.js?id=" + i + dl;
+                f.parentNode.insertBefore(j, f);
+            })(window, document, "script", "dataLayer", "GTM-WZC2NB5");
+        </script>
+        <meta charset="UTF-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
+        <title>NL - Portfolio</title>
+        <meta name="description" content="We are a creative collective that weaves together branding, strategy, and design to create thought-provoking digital experiences for businesses ready to make an impact.">
+        <meta name="url" content=""/>
+        <meta name="author" content="">
+        <meta property="og:type" content="business.business"/>
+        <meta property="og:title" content=""/>
+        <meta property="og:site_name" content=""/>
+        <meta property="og:url" content=""/>
+        <meta property="og:description" content=""/>
+        <meta property="og:image" content=""/>
+        <meta name="twitter:card" content="summary_large_image"/>
+        <meta name="twitter:creator" content="">
+        <meta property="twitter:domain" content=""/>
+        <meta property="twitter:url" content=""/>
+        <meta name="twitter:title" content=""/>
+        <meta name="twitter:description" content=""/>
+        <meta name="twitter:image" content=""/>
+        <meta name="robots" content="index, follow"/>
+        <link rel="canonical" href=""/>
+        <link rel="icon" type="image/x-icon" href="/assets/favicon.ico"/>
+        <link rel="shortcut icon" type="image/jpg" href="assets/logo.png" sizes="any"/>
+        <link rel="shortcut icon" type="image/jpg" href="assets/logo.png" sizes="16x16"/>
+        <link rel="shortcut icon" type="image/jpg" href="assets/logo.png" sizes="32x32"/>
+        <link rel="shortcut icon" type="image/jpg" href="assets/logo.png" sizes="180x180"/>
+        <link rel="shortcut icon" type="image/jpg" href="assets/logo.png" sizes="192x192"/>
+        <link rel="shortcut icon" type="image/jpg" href="assets/logo.png" sizes="512x512"/>
+        <link rel="stylesheet" href="styles/style-inline.css"/>
+        <style>
+            #profile-lightbox {
+                position: fixed;
+                inset: 0;
+                z-index: 9999;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                opacity: 0;
+                pointer-events: none;
+                transition: opacity 0.4s ease;
+            }
+            #profile-lightbox.active {
+                opacity: 1;
+                pointer-events: all;
+            }
+            #lightbox-overlay {
+                position: absolute;
+                inset: 0;
+                background: rgba(0, 0, 0, 0.85);
+                backdrop-filter: blur(10px);
+                -webkit-backdrop-filter: blur(10px);
+            }
+            #lightbox-card {
+                position: relative;
+                z-index: 1;
+            }
+            #lightbox-img-wrap {
+                transform: scale(0.15);
+                border-radius: 50%;
+                transition: transform 0.55s cubic-bezier(0.34, 1.4, 0.64, 1), border-radius 0.55s ease;
+                overflow: hidden;
+                box-shadow: 0 30px 80px rgba(0,0,0,0.5);
+            }
+            #profile-lightbox.active #lightbox-img-wrap {
+                transform: scale(1);
+                border-radius: 16px;
+            }
+            #lightbox-img-full {
+                width: 380px;
+                height: 480px;
+                object-fit: cover;
+                display: block;
+            }
+            @media screen and (max-width: 768px) {
+                #lightbox-img-full {
+                    width: 80vw;
+                    height: 70vw;
+                }
+                #lightbox-close {
+                    top: -16px !important;
+                    right: -16px !important;
+                    width: 44px !important;
+                    height: 44px !important;
+                }
+            }
+            @media screen and (max-width: 480px) {
+                #lightbox-img-full {
+                    width: 88vw;
+                    height: 88vw;
+                }
+                #lightbox-close {
+                    top: -14px !important;
+                    right: -14px !important;
+                    width: 40px !important;
+                    height: 40px !important;
+                }
+            }
+            @keyframes spinClose {
+                0%   { transform: rotate(0deg) scale(1); }
+                40%  { transform: rotate(200deg) scale(1.15); }
+                100% { transform: rotate(135deg) scale(1); }
+            }
+            #lightbox-close {
+                position: absolute;
+                top: -27px;
+                right: -27px;
+                width: 54px;
+                height: 54px;
+                border-radius: 50%;
+                background: linear-gradient(135deg, #ff6b6b, #ee5a24);
+                border: none;
+                cursor: pointer;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                box-shadow: 0 6px 20px rgba(238,90,36,0.5);
+                transition: box-shadow 0.3s ease;
+                z-index: 2;
+                padding: 0;
+            }
+            #lightbox-close:hover {
+                box-shadow: 0 8px 28px rgba(238,90,36,0.75);
+            }
+            #lightbox-close:hover .close-icon {
+                transform: rotate(135deg) scale(1.1);
+            }
+            #lightbox-close.spinning .close-icon {
+                animation: spinClose 0.4s cubic-bezier(0.34, 1.3, 0.64, 1) forwards;
+            }
+            .close-icon {
+                position: relative;
+                width: 22px;
+                height: 22px;
+                transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+            }
+            .close-icon::before,
+            .close-icon::after {
+                content: '';
+                position: absolute;
+                top: 50%;
+                left: 0;
+                width: 100%;
+                height: 3.5px;
+                background: #fff;
+                border-radius: 4px;
+                box-shadow: 0 1px 4px rgba(0,0,0,0.3);
+            }
+            .close-icon::before { transform: translateY(-50%) rotate(45deg); }
+            .close-icon::after  { transform: translateY(-50%) rotate(-45deg); }
+            #profile-circle {
+                cursor: pointer;
+                transition: transform 0.2s ease, box-shadow 0.2s ease, filter 0.3s ease;
+                object-position: center !important;
+                opacity: 1 !important;
+                visibility: visible !important;
+                filter: grayscale(100%);
+            }
+            #profile-circle:hover {
+                transform: scale(1.07);
+                box-shadow: 0 0 0 4px rgba(255,255,255,0.35);
+                filter: grayscale(0%);
+            }
+
+            /* Footer headline */
+            @media screen and (max-width: 1024px) {
+                footer .row.top h2 {
+                    font-size: clamp(24px, 5.5vw, 48px) !important;
+                    padding-right: 2rem !important;
+                    line-height: 1.15 !important;
+                }
+            }
+            @media screen and (max-width: 480px) {
+                footer .row.top h2 {
+                    font-size: clamp(20px, 5vw, 30px) !important;
+                    padding-right: 1rem !important;
+                }
+            }
+
+            /* Relevant Certificates/Experience header */
+            @media screen and (max-width: 1024px) {
+                #clients .mentions-clients .content {
+                    flex-direction: column !important;
+                    align-items: flex-start !important;
+                    gap: 0.25rem !important;
+                }
+                #clients .mentions-clients .content .no-overflow h2 {
+                    font-size: clamp(32px, 8vw, 56px) !important;
+                    line-height: 1.1 !important;
+                }
+                #clients .mentions-clients .content .toggle {
+                    margin-top: 1rem !important;
+                }
+            }
+            @media screen and (max-width: 480px) {
+                #clients .mentions-clients .content .no-overflow h2 {
+                    font-size: clamp(26px, 7vw, 40px) !important;
+                }
+            }
+            @media screen and (max-width: 1024px) {
+                #profile-circle {
+                    width: 100px !important;
+                    height: 100px !important;
+                    top: unset !important;
+                    bottom: 2.5rem !important;
+                    right: 1.5rem !important;
+                    left: unset !important;
+                    transform: none !important;
+                    border: 3px solid rgba(255,255,255,0.35) !important;
+                    box-shadow: 0 8px 32px rgba(0,0,0,0.25) !important;
+                }
+                #profile-circle:hover {
+                    transform: scale(1.07) !important;
+                }
+            }
+            @media screen and (max-width: 480px) {
+                #profile-circle {
+                    width: 85px !important;
+                    height: 85px !important;
+                    bottom: 2rem !important;
+                    right: 1rem !important;
+                }
+            }
+        </style>
+        <link rel="preload" href="styles/fonts.css" as="style" onload='this.onload=null;this.rel="stylesheet"'/>
+        <noscript><link rel="stylesheet" href="styles/fonts.css"/></noscript>
+        <link rel="preload" href="styles/style.css" as="style" onload='this.onload=null;this.rel="stylesheet"'/>
+        <noscript><link rel="stylesheet" href="styles/style.css"/></noscript>
+        <script src="https://unpkg.com/imagesloaded@5/imagesloaded.pkgd.min.js" defer></script>
+        <script src="https://unpkg.com/@barba/core" defer></script>
+        <script src="scripts/libs/gsap.min.js" defer></script>
+        <script src="scripts/libs/ScrollSmoother.min.js" defer></script>
+        <script src="scripts/libs/ScrollTrigger.min.js" defer></script>
+        <script src="scripts/libs/SplitText.min.js" defer></script>
+        <script src="scripts/global.min.js" defer></script>
+        <script type="application/ld+json">
+            { "@context": "https://schema.org/", "@type": "WebSite", "name": "Duo Studio", "url": "https://duo-studio.co/",
+            "potentialAction": { "@type": "SearchAction", "target": "{search_term_string}", "query-input": "required
+            name=search_term_string" } }
+        </script>
+    </head>
+    <body data-barba="wrapper">
+        <noscript>
+            <iframe
+                src="https://www.googletagmanager.com/ns.html?id=GTM-WZC2NB5"
+                height="0"
+                width="0"
+                style="display: none; visibility: hidden"></iframe>
+        </noscript>
+        <div class="cursor">
+            <span></span>
+        </div>
+        <nav>
+    <ul>
+        <li>
+            <a href="index.html" style="height:55px; width:50px;" class="cursor__hover --highlight">
+                <img src="assets/logo.png"/>
+            </a>
+        </li>        
+        <div class="row mobile">
+            <div class="col">
+                <span>General Inquiries</span>
+                <a href="leslyndiz6@gmail.com" class="cursor__hover --highlight"></a>
+            </div>
+            <div class="col">
+                <span>Follow Me</span>
+                <a href="https://www.instagram.com/lezoolesly/" class="cursor__hover --highlight"></a>
+            </div>
+            
+            </div>
+        </div>
+        <div class="nav-toggle">
+            <div class="line"></div>
+            <div class="line"></div>
+            <div class="line"></div>
+        </div>
+    </ul>
+</nav>        
+<div class="barba-container loading" data-barba="container" data-barba-namespace="home" id="smooth-wrapper">
+    <main id="smooth-content">
+        <section id="banner">
+            <div class="section__wrapper" style="position:relative;">
+                <img
+                    id="profile-circle"
+                    src="assets/home/image.png"
+                    alt="Lesly profile photo"
+                    style="position:absolute;top:2rem;right:1rem;width:130px;height:130px;border-radius:50%;object-fit:cover;object-position:center;border:3px solid rgba(255,255,255,0.2);z-index:20;opacity:1 !important;"
+                />
+                <div class="content">
+                    <h1 class="top st__headline--spread --banner">
+                        Hi! I am Lesly, a software<br> engineer & Ui/Ux-Designer
+                    </h1>
+                    <p>I specialize in creating seamless digital experiences, blending strong software development skills with a keen eye for design, ensuring high-quality, solutions that delight and engage users.</p>
+                </div>
+                <div class="inner">
+                    <div class="promo">
+                        <video
+                            class="cursor__hover"
+                            width="1920"
+                            height="1080"
+                            src="assets/home/IntroVid.mp4"
+                            playsinline
+                            muted
+                            loop
+                            autoplay></video>
+                        <video
+                            class="mobile"
+                            width="1080"
+                            height="720"
+                            src="assets/home/IntroVid.mp4"
+                            playsinline
+                            muted
+                            loop
+                            autoplay></video>
+                        <aside>
+                            <p>Watch Showreel</p>
+                            <p class="subtitle">2020-2026</p>
+                        </aside>
+                        <div class="mobile btn__small">
+                            <p>Play</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section id="intro">
+            <div class="section__wrapper">
+                <h2 class="st__text">
+                    <span>Recent Projects</span>where creativity meets code! these are experiences, designed to captivate and engage.
+                </h2>
+                <div class="content">
+                    <div class="row active">
+                        <div class="col">
+                            <div class="st__plax">
+                                <img
+                                    src="assets/services/U-UTTT.png"
+                                    alt="U-Travel;"
+                                    />
+                            </div>
+                        </div>
+                        <div class="col">
+                            <a href="https://utrwanda.netlify.app/" target="_blank" rel="noopener noreferrer" style="text-decoration:none;color:inherit;display:block;">
+                            <div class="inner cursor__hover --highlight st__text">
+                                <h3>U-Travel Website</h3>
+                                <p class="subtitle">U-Travel is an organization dedicated to helping international students discover the beauty and culture of Rwanda by offering personalized tours. It's designed to simplify your journey with a user-centric interface.</p>
+                                <span class="btn__small --tag">Explore</span>
+                            </div>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <div class="st__plax">
+                                <img
+                                    src="assets/services/image.png"
+                                    alt="brand-identity-image"
+                                    style="width:100%;height:550px;object-fit:cover;object-position:center;padding:18px 0;clip-path:inset(18px 0);"
+                                    />
+                            </div>
+                        </div>
+                        <div class="col">
+                            <a href="https://ubuzimaconnect-hospitals.vercel.app/" target="_blank" rel="noopener noreferrer" style="text-decoration:none;color:inherit;display:block;">
+                            <div class="inner cursor__hover --highlight st__text">
+                                <h3>Ubuzima Connect AI</h3>
+                                <p class="subtitle">A diagnostic Computer Vision model for detecting Tuberculosis and Pneumonia in Chest X-rays in Rwanda. Engineered using Transfer Learning (ResNet-50) on a hybrid dataset to mitigate distribution shift bias, featuring Grad-CAM heatmaps for clinical explainability.</p>
+                                <span class="btn__small --tag">View Model</span>
+                            </div>
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col">
+                            <div class="st__plax">
+                                <img
+                                    src="assets/services/XOO.png"
+                                    alt="brand-identity-image"
+                                    />
+                            </div>
+                        </div>
+                        <div class="col">
+                            <a href="https://ninjablocksgame.netlify.app/" target="_blank" rel="noopener noreferrer" style="text-decoration:none;color:inherit;display:block;">
+                            <div class="inner cursor__hover --highlight st__text">
+                                <h3>Ninja Tower Blocks Game</h3>
+                                <p class="subtitle"> A fun JavaScript-based game where players stack blocks ninja-style! Test your reflexes and building skills as you construct towers higher and higher. Built with JavaScript, CSS, and HTML</p>
+                                <span class="btn__small --tag">Explore</span>
+                            </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <a class="btn__small cursor__hover --highlight st__text" href="https://github.com/Leslyndizeye?tab=repositories">
+                    <p>Explore More Projects</p>
+                </a>
+            </div>
+        </section>
+        <section id="work">
+            <div class="st__line"></div>
+            <div class="section__wrapper">
+                <div class="st__headline title">Featured Media Work</div>
+                <div class="card-container">
+                    <a class="card cursor__hover st__image-container" data-attribute-text="">
+                        <div class="inner st__image" data-attribute-pos="right">
+                            <div class="no-overflow">
+                                <div class="img-wrapper">
+                                    <video
+                                        src="assets/home/Animation.mp4"
+                                        playsinline
+                                        muted
+                                        loop
+                                        autoplay
+                                        preload="none"></video>
+                                </div>
+                            </div>
+                            <div class="card-info">
+                                <h3>Videography</h3>
+                                <p class="subtitle">Dive into the world of captivating visuals.</p>
+                            </div>
+                        </div>
+                    </a>
+                    <a class="card cursor__hover st__image-container" data-attribute-text="" >
+                        <div class="inner st__image">
+                            <div class="no-overflow">
+                                
+                                    <img
+                                        src="assets/services/1.png"                                                                            
+                                        alt="project-image"
+                            />                                                                       
+                            </div>
+                            <div class="card-info">
+                                <h3>IHUTE — Delivery App Ad</h3>
+                                <p class="subtitle">Stay home, want a cold juice? A delivery service advertisement designed for IHUTE, promoting convenience and home delivery across Rwanda.</p>
+                            </div>
+                        </div>
+                    </a>
+                    <a class="card cursor__hover st__image-container" data-attribute-text="" >
+                        <div class="inner st__image">
+                            <div class="no-overflow">
+                                <img
+                                        src="assets/services/2.png"                                                                            
+                                        alt="project-image"
+                            />           
+                            </div>
+                            <div class="card-info">
+                                <h3>Advertisement</h3>
+                                <p class="subtitle">Designed to elevate your experience and unmatched value.</p>
+                            </div>
+                        </div>
+                    </a>
+                    <a class="card cursor__hover st__image-container" data-attribute-text="" >
+                        <div class="inner st__image" data-attribute-pos="right">
+                            <div class="no-overflow">
+                                <img
+                                        src="assets/services/3.png"                                                                            
+                                        alt="project-image"
+                            />           
+                            </div>
+                            <div class="card-info">
+                                <h3>Invitational</h3>
+                                <p class="subtitle">Immerse yourself in an unforgettable experience.</p>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <div class="col">
+                    <p class="st__text">Browse my work and get inspired by the possibilities we can create together.</p>
+                    <a class="btn__small st__text cursor__hover --highlight" href="https://github.com/Leslyndizeye?tab=repositories">
+                        <p>Explore More</p>
+                    </a>
+                </div>
+            </div>
+        </section>
+        <section id="clients" class="bg__trigger--custom">
+            <div class="st__line"></div>
+            <div class="row value">
+                <div class="section__wrapper --process">
+                    <header>
+                        <div class="title st__headline">
+                            Languages & <br>Technologies I Use
+                        </div>
+                        <a class="btn__circle" href="https://mail.google.com/mail/?view=cm&fs=1&to=leslyndiz6@gmail.com&su=Start+a+Project&body=Hi+Lesly,+I+would+like+to+start+a+project+with+you!" target="_blank" rel="noopener noreferrer">
+                            <p>Start a Project</p>
+                        </a>
+                    </header>
+                    <div class="row horizontal">
+                        <div class="col">
+                            <div class="btn__small --tag">001</div>
+                            <h2>HTML, CSS, JavaScript<br>& TypeScript</h2>
+                            <p>The foundation of everything I build. HTML structures content, CSS brings it to life visually, JavaScript adds interactivity, and TypeScript ensures scalable, type-safe code across larger projects.</p>
+                        </div>
+                        <div class="col">
+                            <div class="btn__small --tag">002</div>
+                            <h2>React.js & Vue.js<br>Frontend Frameworks</h2>
+                            <p>React and Vue power my component-driven UIs. React's ecosystem and Vue's simplicity let me build fast, dynamic, and maintainable web applications with smooth user experiences.</p>
+                        </div>
+                        <div class="col">
+                            <div class="btn__small --tag">003</div>
+                            <h2>Python, Django<br>& Node.js</h2>
+                            <p>Python and Django handle robust server-side logic and rapid API development, while Node.js enables scalable, event-driven back-end systems — giving me full control over the server layer.</p>
+                        </div>
+                        <div class="col">
+                            <div class="btn__small --tag">004</div>
+                            <h2>Flutter & Dart<br>Mobile Development</h2>
+                            <p>Flutter lets me build beautiful, natively compiled iOS and Android applications from a single codebase using Dart — delivering consistent, high-performance mobile experiences across platforms.</p>
+                        </div>
+                        <div class="col">
+                            <div class="btn__small --tag">005</div>
+                            <h2>MySQL & MongoDB<br>Databases</h2>
+                            <p>MySQL handles structured relational data with powerful querying, while MongoDB offers flexible NoSQL document storage. Together they cover the full spectrum of modern data management needs.</p>
+                        </div>
+                        <div class="col">
+                            <div class="btn__small --tag">006</div>
+                            <h2>Machine Learning<br>& Data Analysis</h2>
+                            <p>Using Python and libraries like scikit-learn, I apply unsupervised learning, clustering, and data analysis techniques to extract meaningful insights and build intelligent, data-driven features.</p>
+                        </div>
+                        <div class="col">
+                            <div class="btn__small --tag">007</div>
+                            <h2>Adobe, Figma<br>& Canva</h2>
+                            <p>Adobe provides advanced tools for graphic and video editing. Figma enables collaborative UI/UX design and prototyping in real time. Canva makes it easy to produce polished marketing visuals quickly.</p>
+                        </div>
+                        <div class="col">
+                            <div class="btn__small --tag">008</div>
+                            <h2>Vercel & Netlify<br>Deployment Platforms</h2>
+                            <p>Vercel and Netlify streamline the deployment of modern web applications with automatic previews, CI/CD pipelines, and seamless integration with frameworks like Next.js and React.</p>
+                        </div>
+                        <div class="progress">
+                            <div class="bar"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <header class="row mentions-clients">
+                <div class="section__wrapper">
+                    <div class="st__line"></div>
+                    <div class="content">
+                        <div class="no-overflow cursor__hover --highlight st__headline">
+                            <h2>Relevant</h2>
+                            <h2>Relevant</h2>
+                        </div>
+                        <div class="no-overflow cursor__hover --highlight">
+                            <h2 class="st__headline">Certificates</h2>
+                            <h2>Experience</h2>
+                        </div>
+                        <p class="toggle btn__small --tag cursor__hover --highlight">
+                            Explore
+                            <span class="display">
+                                <span class="display__inner">Experience</span>
+                                <span class="display__inner">Certificates</span>
+                            </span>
+                        </p>
+                    </div>
+                </div>
+            </header>
+            <div class="container">
+                <div class="container__inner col -mentions cursor__hide">
+                    <a
+                        href="https://www.coursera.org/account/accomplishments/verify/EAGY5A1I0E69"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="inner row st__text">
+                        <div class="row wrapper">
+                            <h3>Meta's Introduction to Back-End Development</h3>
+                            <p>Graphic Design</p>
+                            <p>2024</p>
+                        </div>
+                    </a>
+                    <a
+                        href="https://www.coursera.org/account/accomplishments/verify/7TPJVGP9ATI2"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="inner row st__text">
+                        <div class="row wrapper">
+                            <h3>Meta's Introduction To Front-End Development</h3>
+                            <p>Web Development</p>
+                            <p>2024</p>
+                        </div>
+                    </a>
+                    <a
+                        href="https://www.coursera.org/account/accomplishments/verify/ZVL32R6QU3NO"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="inner row st__text">
+                        <div class="row wrapper">
+                            <h3>IBM's Flutter & Dart: iOS, Android & Mobile Apps</h3>
+                            <p>Mobile Development</p>
+                            <p>2024</p>
+                        </div>
+                    </a>
+                    <a
+                        href="https://www.coursera.org/account/accomplishments/verify/0OW3GXHZIGRQ"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="inner row st__text">
+                        <div class="row wrapper">
+                            <h3>IBM's Applied Unsupervised Learning in Python</h3>
+                            <p>AI / Machine Learning</p>
+                            <p>2025</p>
+                        </div>
+                    </a>
+                    <!-- <a href="https://www.coursera.org/account/accomplishments/verify/UE4EP3KADGXR" target="_blank" rel="noopener noreferrer" class="inner row st__text">
+                        <div class="row wrapper">
+                            <h3>O.P. Jindal Global University's Introduction to Academic Writing</h3>
+                            <p>English Comprehension</p>
+                            <p>2024</p>
+                        </div>
+                    </a> -->
+                </div>
+                <div class="container__inner col -clients cursor__hide">
+                    <a target="_blank" rel="noopener noreferrer" class="inner row st__text">
+                        <div class="row wrapper">
+                            <h3>ZENOTEKK</h3>
+                            <p>Member</p>
+                            <p>2025 - 2026</p>
+                        </div>
+                    </a>
+                    <a  target="_blank" rel="noopener noreferrer" class="inner row st__text">
+                        <div class="row wrapper">
+                            <h3>Graphic Designer & Video Creator</h3>
+                            <p>Digital Network Associate</p>
+                            <p>2022 - 2023</p>
+                        </div>
+                    </a>
+                    <a  target="_blank" rel="noopener noreferrer" class="inner row st__text">
+                        <div class="row wrapper">
+                            <h3>Visual Brand Identity Designer</h3>
+                            <p>VIP Network LLC</p>
+                            <p>2023 - 2024</p>
+                        </div>
+                    </a>
+                    <a  target="_blank" rel="noopener noreferrer" class="inner row st__text">
+                        <div class="row wrapper">
+                            <h3>ALU Wildlife Conservation</h3>
+                            <p>Member</p>
+                            <p>2024 - 2027</p>
+                        </div>
+                    </a>
+                    <a target="_blank" rel="noopener noreferrer" class="inner row st__text">
+                        <div class="row wrapper">
+                            <h3>Ishyiga software</h3>
+                            <p>Software engineer</p>
+                            <p>2024 - 2025</p>
+                        </div>
+                    </a>
+                    
+                </div>
+            </div>
+        </section>
+        <div class="footer-spacer footer-trigger">
+    <footer>
+        <div class="row top">
+            <h2 class="st__headline headline__footer lg">Let's create an experience as remarkable as your business</h2>
+            <a class="btn__circle" href="https://mail.google.com/mail/?view=cm&fs=1&to=leslyndiz6@gmail.com&su=Let's+Work+Together&body=Hi+Lesly,+I+would+like+to+get+in+touch+with+you!" target="_blank" rel="noopener noreferrer">
+                <p>Get in Touch</p>
+            </a>
+        </div>
+        <div class="row bottom">
+            <div class="col">
+                <h3>Don't miss out. Stay in the loop.</h3>
+                <form method='POST' name='subscribe' onsubmit="var e=document.getElementById('email').value;if(e){window.open('https://mail.google.com/mail/?view=cm&fs=1&to=leslyndiz6@gmail.com&su=Collaboration+Opportunity&body=Hi+Lesly,+I+would+like+to+collaborate+with+you!+My+email:+'+encodeURIComponent(e),'_blank');}return false;">
+                    <input type='hidden' name='form-name' value='subscribe' />
+                    <input type="email" placeholder="Your Email" name="email" id="email" required="required"/>
+                    <input name="bot-field" type="hidden"/>
+                    <button type="submit" class="btn__small --tag cursor__hover --highlight">
+                        <div class="no-overflow">
+                            <div class="inner">
+                                <p>Subscribe</p>
+                                <p>Subscribed!</p>
+                            </div>
+                        </div>
+                    </button>
+                </form>
+            </div>
+            <div class="col">
+                <a class="cursor__hover --highlight" href="mailto:leslyndiz6@gmail.com">
+                    <h3>leslyndiz6@gmail.com</h3>
+                </a>
+                <div class="row__inner" style="display:flex;gap:3rem;margin-top:1.5rem;flex-wrap:wrap;">
+                    <div class="col__inner">
+                        <p style="margin-bottom:0.5rem;">Address</p>
+                        <ul class="subtitle" style="list-style:none;padding:0;margin:0;">
+                            <li>Kigali - Rwanda</li>
+                        </ul>
+                    </div>
+                    <div class="col__inner">
+                        <p style="margin-bottom:0.5rem;">Phone</p>
+                        <ul class="subtitle" style="list-style:none;padding:0;margin:0;">
+                            <li>
+                                <a href="tel:+250782540966" class="cursor__hover --highlight">+250 782 540 966</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="col__inner">
+                        <p style="margin-bottom:0.5rem;">Socials</p>
+                        <ul class="subtitle" style="list-style:none;padding:0;margin:0;">
+                            <li style="margin-bottom:0.3rem;">
+                                <a href="https://www.instagram.com/lezoolesly/" target="_blank" rel="noopener noreferrer" class="cursor__hover --highlight">Instagram</a>
+                            </li>
+                            <li>
+                                <a href="https://github.com/Leslyndizeye/" target="_blank" rel="noopener noreferrer" class="cursor__hover --highlight">GitHub</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="copyright subtitle">
+            &copy;2026 Nl - Portfolio |
+            <a class="cursor__hover --highlight" href="https://github.com/Leslyndizeye/">Developed by Ndizeye Lesly</a>
+        </div>
+    </footer>
+</div>
+    </main>
+    <div class="client-images">
+        <div class="client-images__mentions">
+            <img
+               
+                src="assets/home/BACKEND.png"
+                alt="cursor-image"
+                loading="lazy"/>
+
+                <img
+               
+                src="assets/home/FE.png"
+                alt="cursor-image"
+                loading="lazy"/>
+
+            <img
+               
+                src="assets/home/mobiled.png"
+                alt="cursor-image"
+                loading="lazy"/>
+
+            <img
+               
+                src="assets/home/DA.png"
+                alt="cursor-image"
+                loading="lazy"/>
+
+            <img
+               
+                src="assets/home/AW.png"
+                alt="cursor-image"
+                loading="lazy"/>            
+        </div>
+        
+    </div>
+</div>
+        <div class="page-transition"></div>
+        <div id="profile-lightbox">
+            <div id="lightbox-overlay"></div>
+            <div id="lightbox-card">
+                <div id="lightbox-img-wrap">
+                    <img id="lightbox-img-full" src="assets/home/image.png" alt="Lesly profile photo"/>
+                </div>
+                <button id="lightbox-close"><span class="close-icon"></span></button>
+            </div>
+        </div>
+        <script>
+            (function () {
+                var circle   = document.getElementById('profile-circle');
+                var lightbox = document.getElementById('profile-lightbox');
+                var closeBtn = document.getElementById('lightbox-close');
+                var overlay  = document.getElementById('lightbox-overlay');
+
+                function openLightbox() {
+                    lightbox.style.display = 'flex';
+                    requestAnimationFrame(function () {
+                        requestAnimationFrame(function () {
+                            lightbox.classList.add('active');
+                        });
+                    });
+                }
+
+                function closeLightbox() {
+                    closeBtn.classList.add('spinning');
+                    setTimeout(function () {
+                        closeBtn.classList.remove('spinning');
+                        lightbox.classList.remove('active');
+                        setTimeout(function () {
+                            lightbox.style.display = 'none';
+                        }, 550);
+                    }, 380);
+                }
+
+                circle.addEventListener('click', openLightbox);
+                closeBtn.addEventListener('click', closeLightbox);
+                overlay.addEventListener('click', closeLightbox);
+
+                document.addEventListener('keydown', function (e) {
+                    if (e.key === 'Escape') closeLightbox();
+                });
+            })();
+        </script>
+    </body>
+</html>
